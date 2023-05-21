@@ -1,0 +1,13 @@
+.gallery__delete {
+    position: absolute;
+    right: 20px;
+    top: 20px;
+    background-color: transparent;
+    background-size: contain;
+    background-image: url('../../../images/TrashCan.svg');
+    width: 18px;
+    height: 19px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+    border: none;
+}
