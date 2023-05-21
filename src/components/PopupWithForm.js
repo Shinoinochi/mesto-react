@@ -1,5 +1,5 @@
 
-function PopupWithForm(props, children) {
+function PopupWithForm(props) {
     return (
         <>
         <div className={props.isOpen? `popup ${props.name}-popup popup_opened` : `popup ${props.name}-popup`}>
@@ -7,7 +7,7 @@ function PopupWithForm(props, children) {
                 <button type="button" className="popup__button-close" onClick={props.onClose}></button>
                 <h3 className="popup__title">{props.title}</h3>
                 <form
-                    name="${props.name}-form"
+                    name={`${props.name}-form`}
                     action="#"
                     method="post"
                     target="_blank"

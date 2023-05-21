@@ -1,8 +1,7 @@
-function Card({name, link, likes, onCardClick}) {
+function Card({id, name, link, likes, onCardClick}) {
     function handleClick() {
         onCardClick({ link, name });
       }  
-
       return (
         <div className="gallery__item">
             <button type="button" className="gallery__delete"></button>

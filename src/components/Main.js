@@ -19,6 +19,7 @@ function Main(props) {
             isUserAvatar(data[0].avatar);
             const cardData = data[1].map(card => {
                 return {
+                    id: card._id,
                     name: card.name,
                     link: card.link,
                     likes: card.likes
@@ -62,7 +63,7 @@ function Main(props) {
             </section>
             <section className="gallery">
                 {cards.map((card) => 
-                    <Card name={card.name} link={card.link} likes={card.likes.length} onCardClick={props.onCardClick} />
+                    <Card key={card.id} id={card.id} name={card.name} link={card.link} likes={card.likes.length} onCardClick={props.onCardClick} />
                 )}
             </section>
         </main>
