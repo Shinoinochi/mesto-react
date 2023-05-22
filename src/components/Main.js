@@ -3,10 +3,10 @@ import Card from './Card.js';
 import React from 'react';
 function Main(props) {
 
-    const [userName, isUserName] = React.useState('');
-    const [userDescription , isUserDescription] = React.useState('');
-    const [userAvatar , isUserAvatar] = React.useState('');
-    const [cards, isCards] = React.useState([]);
+    const [userName, setUserName] = React.useState('');
+    const [userDescription , setUserDescription] = React.useState('');
+    const [userAvatar , setUserAvatar] = React.useState('');
+    const [cards, setCards] = React.useState([]);
     
     React.useEffect(() => {
         Promise.all([
@@ -14,23 +14,17 @@ function Main(props) {
             api.getInitialCards()
         ])
         .then(data => {
-            isUserName(data[0].name);
-            isUserDescription(data[0].about);
-            isUserAvatar(data[0].avatar);
-            const cardData = data[1].map(card => {
-                return {
-                    id: card._id,
-                    name: card.name,
-                    link: card.link,
-                    likes: card.likes
-                }
-            })
-            isCards(cardData);
+            setUserName(data[0].name);
+            setUserDescription(data[0].about);
+            setUserAvatar(data[0].avatar);
+            setCards(data[1]);
+        })
+        .catch(err => {
+            console.log(err);
         })
     }, []);
     
     return (
-        <>
         <main className="content">
             <section className="profile">
                 <div className="profile__avatar">
@@ -63,11 +57,10 @@ function Main(props) {
             </section>
             <section className="gallery">
                 {cards.map((card) => 
-                    <Card key={card.id} id={card.id} name={card.name} link={card.link} likes={card.likes.length} onCardClick={props.onCardClick} />
+                    <Card key={card._id} card={card} onCardClick={props.onCardClick} />
                 )}
             </section>
         </main>
-        </>
     )
 }
 export default Main;

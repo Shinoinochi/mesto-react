@@ -1,23 +1,23 @@
-function Card({id, name, link, likes, onCardClick}) {
+function Card({card, onCardClick}) {
     function handleClick() {
-        onCardClick({ link, name });
+        onCardClick(card);
       }  
       return (
         <div className="gallery__item">
             <button type="button" className="gallery__delete"></button>
             <img
-                src={link}
-                alt={name}
+                src={card.link}
+                alt={card.name}
                 className="gallery__image"
                 onClick={handleClick} />
             <div className="gallery__info">
-                <h3 className="gallery__title">{name}</h3>
+                <h3 className="gallery__title">{card.name}</h3>
                 <div className="gallery__like">
                     <button 
                         type="button"
                         className="gallery__button-like">
                     </button>
-                    <p className="gallery__like-count">{likes}</p>
+                    <p className="gallery__like-count">{card.likes.length}</p>
                 </div>
             </div>
         </div>

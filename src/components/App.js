@@ -8,39 +8,34 @@ import React from 'react';
 
 function App() {
 
-    let [isEditAvatarClicked, setIsEditAvatarClicked] = React.useState(false);
-    let [isEditProfileClicked, setIsEditProfileClicked] = React.useState(false);
-    let [isAddPlaceClicked, setIsAddPlaceClicked] = React.useState(false);
-    const [selectedCard, isSelectedCard] = React.useState([]);
+    const [isEditAvatarClicked, setIsEditAvatarClicked] = React.useState(false);
+    const [isEditProfileClicked, setIsEditProfileClicked] = React.useState(false);
+    const [isAddPlaceClicked, setIsAddPlaceClicked] = React.useState(false);
+    const [selectedCard, setSelectedCard] = React.useState({});
 
     function handleCardClick (card) {
-        isSelectedCard(card);
+        setSelectedCard(card);
     }
 
     function handleEditAvatarClick() {
-        document.querySelector('.avatar-popup').classList.add('popup_opened');
-        setIsEditAvatarClicked(true);
+        setIsEditAvatarClicked(!isEditAvatarClicked);
     }
 
     function handleEditProfileClick() {
-        document.querySelector('.profile-popup').classList.add('popup_opened');
-        setIsEditProfileClicked(true);
+        setIsEditProfileClicked(!isEditProfileClicked);
     }
     
     function handleAddPlaceClick() {
-        document.querySelector('.create-popup').classList.add('popup_opened');
-        setIsAddPlaceClicked(true);
+        setIsAddPlaceClicked(!isAddPlaceClicked);
     }
     function closeAllPopups() {
-        const popups = document.querySelectorAll('.popup_opened');
-        popups.forEach((popup) => {
-            popup.classList.remove('popup_opened');
-        })
-        isSelectedCard([]);
+        setIsEditAvatarClicked(false);
+        setIsEditProfileClicked(false);
+        setIsAddPlaceClicked(false);
+        setSelectedCard({});
     }
     
   return (
-    <>
         <div className="pages">
             <Header />
                 <Main 
@@ -125,9 +120,7 @@ function App() {
                     card={selectedCard}
                     onClose={closeAllPopups} />
                 <Footer />
-                
             </div>
-        </>
   );
 }
 
