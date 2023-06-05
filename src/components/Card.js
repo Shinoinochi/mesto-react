@@ -1,27 +1,42 @@
-function Card({card, onCardClick}) {
+import { CurrentUserContext } from '../context/CurrentUserContext.js';
+import React from 'react';
+function Card({ card, onCardClick, onCardLike, onCardDelete}) {
+    const currentUser = React.useContext(CurrentUserContext);
+    const isOwn = card.owner._id === currentUser._id;
+    const isLiked = card.likes.some(i => i._id === currentUser._id);
+    const cardLikeButtonClassName = ( `gallery__button-like ${isLiked && 'gallery__like_active'}`);
+
+    function handleDeleteClic() {
+        onCardDelete(card);
+    }
     function handleClick() {
         onCardClick(card);
-      }  
-      return (
-        <div className="gallery__item">
-            <button type="button" className="gallery__delete"></button>
-            <img
-                src={card.link}
-                alt={card.name}
-                className="gallery__image"
-                onClick={handleClick} />
-            <div className="gallery__info">
-                <h3 className="gallery__title">{card.name}</h3>
-                <div className="gallery__like">
-                    <button 
-                        type="button"
-                        className="gallery__button-like">
-                    </button>
-                    <p className="gallery__like-count">{card.likes.length}</p>
-                </div>
+    }
+    function handleClickLike() {
+        onCardLike(card);
+    }
+
+    return (
+    <div className="gallery__item">
+        {isOwn && <button className="gallery__delete" type="button" onClick={handleDeleteClic}/>} 
+        <img
+            src={card.link}
+            alt={card.name}
+            className="gallery__image"
+            onClick={handleClick} />
+        <div className="gallery__info">
+            <h3 className="gallery__title">{card.name}</h3>
+            <div className="gallery__like">
+                <button 
+                    type="button"
+                    className={cardLikeButtonClassName}
+                    onClick={handleClickLike} >
+                </button>
+                <p className="gallery__like-count">{card.likes.length}</p>
             </div>
         </div>
-      )
+    </div>
+    )
 }
 
 export default Card;

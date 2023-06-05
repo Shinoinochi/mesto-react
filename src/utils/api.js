@@ -6,6 +6,7 @@ export default class Api {
     _checkData(res) {
       return res.ok? res.json(): Promise.reject(`Ошибка: ${res.status}`);
     }
+
     getLikes(method, cardId) {
       return fetch(`${this._url}cards/${cardId}/likes`, {
         method: method,
@@ -15,7 +16,20 @@ export default class Api {
          return this._checkData(res);
       });
     }
-    
+
+    changeLikeCardStatus(cardId, isLiked) {
+      if(isLiked) {
+        return api.getLikes('PUT', cardId).catch((err) => {
+          console.log(err);
+        });
+      }
+      else {
+        return api.getLikes('DELETE', cardId).catch((err) => {
+          console.log(err);
+        });
+      }
+    }
+
     getInitialCards() {
         return fetch(this._url + 'cards', {
             headers: this._header
@@ -50,7 +64,7 @@ export default class Api {
     }
 
     editUser(name, about) {
-      fetch(this._url +'/users/me', {
+      return fetch(this._url +'/users/me', {
         method: 'PATCH',
         headers: this._header,
         body: JSON.stringify({
@@ -60,11 +74,11 @@ export default class Api {
       })
       .then((res) => {
         return this._checkData(res);
-      });  
+      });
     }
 
     setUserLogo(link) {
-      fetch(this._url +'/users/me/avatar', {
+      return fetch(this._url +'/users/me/avatar', {
         method: 'PATCH',
         headers: this._header,
         body: JSON.stringify({
@@ -77,7 +91,7 @@ export default class Api {
     }
 
     deleteCard(id) {
-       fetch(this._url + 'cards/' + id, {
+       return fetch(this._url + 'cards/' + id, {
         method: 'DELETE',
         headers: this._header
       })
