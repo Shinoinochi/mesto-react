@@ -8,25 +8,24 @@ import AddPlacePopup from './AddPlacePopup.js';
 import React from 'react';
 import { CurrentUserContext } from '../context/CurrentUserContext.js';
 import { api } from '../utils/api.js';
-import { renderLoading } from '../utils/utils.js';
 
 function App() {
-
     const [isEditAvatarClicked, setIsEditAvatarClicked] = React.useState(false);
     const [isEditProfileClicked, setIsEditProfileClicked] = React.useState(false);
     const [isAddPlaceClicked, setIsAddPlaceClicked] = React.useState(false);
     const [selectedCard, setSelectedCard] = React.useState({});
     const [currentUser, setCurrentUser] = React.useState({});
     const [cards, setCards] = React.useState([]);
+    const [loading, isLoading] = React.useState(false);
 
     React.useEffect(() => {
         Promise.all([
             api.getUserData(),
             api.getInitialCards()
         ])
-        .then(data => {
-            setCurrentUser(data[0]);
-            setCards(data[1]);
+        .then(([user, cards]) => {
+            setCurrentUser(user);
+            setCards(cards);
         })
         .catch(err => {
             console.log(err.status);
@@ -44,7 +43,7 @@ function App() {
     }
 
     function handleUpdateUser(userData) {
-        renderLoading(true, userData.button);
+        isLoading(true);
         api.editUser(userData.name, userData.about)
         .then((data) => {
             setCurrentUser(data);
@@ -54,13 +53,12 @@ function App() {
             console.log(err.status);
         })
         .finally(() => {
-            console.log(userData.button);
-            renderLoading(false, userData.button)
+            isLoading(false);
         });
     }
 
     function handleUpdateAvatar(userData) {
-        renderLoading(true, userData.button);
+        isLoading(true);
         api.setUserLogo(userData.avatar)
         .then((data) => {
             setCurrentUser(data);
@@ -70,7 +68,7 @@ function App() {
             console.log(err.status);
         })
         .finally(() => {
-            renderLoading(false, userData.button);
+            isLoading(false);
         });
     }
 
@@ -85,7 +83,7 @@ function App() {
     }
     
     function handleAddPlaceSubmit(card) {
-        renderLoading(true, card.button);
+        isLoading(true);
         api.addNewCard(card)
         .then(newCard => {
             setCards([newCard, ...cards]);
@@ -95,7 +93,7 @@ function App() {
             console.log(err);
         })
         .finally(() => {
-            renderLoading(false, card.button);
+            isLoading(false);
         });
     }
 
@@ -137,9 +135,9 @@ function App() {
                     onCardLike={handleCardLike}
                     onCardDelete={handleCardDelete}
                     />
-                <EditProfilePopup isOpen={isEditProfileClicked} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} />
-                <AddPlacePopup isOpen={isAddPlaceClicked} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} />
-                <EditAvatarPopup isOpen={isEditAvatarClicked} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} />
+                <EditProfilePopup isOpen={isEditProfileClicked} onClose={closeAllPopups} onUpdateUser={handleUpdateUser} isLoading={loading}/>
+                <AddPlacePopup isOpen={isAddPlaceClicked} onClose={closeAllPopups} onAddPlace={handleAddPlaceSubmit} isLoading={loading}/>
+                <EditAvatarPopup isOpen={isEditAvatarClicked} onClose={closeAllPopups} onUpdateAvatar={handleUpdateAvatar} isLoading={loading}/>
                 <ImagePopup card={selectedCard} onClose={closeAllPopups} />
                 <Footer />
             </CurrentUserContext.Provider>

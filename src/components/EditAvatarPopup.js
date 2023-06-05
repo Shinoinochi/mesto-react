@@ -1,6 +1,6 @@
 import PopupWithForm  from './PopupWithForm.js';
 import React from 'react';
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     const avatarRef = React.useRef();    
 
     function handleSubmit(evt) {
@@ -19,7 +19,8 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
             buttonText="Сохранить"
             isOpen={isOpen}
             onClose={onClose}
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+            isLoading={isLoading}>
             <input 
                 type="url"
                 required

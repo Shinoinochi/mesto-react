@@ -1,9 +1,14 @@
 import PopupWithForm  from './PopupWithForm.js';
 import React from 'react';
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
     const nameRef = React.useRef();
     const linkRef = React.useRef();
-    
+
+    React.useEffect(() => {
+        nameRef.current.value = '';
+        linkRef.current.value = '';
+    }, [isOpen]);
+
     function handleSubmit(evt) {
         evt.preventDefault();
         const button = evt.currentTarget.querySelector('.popup__button');
@@ -12,8 +17,6 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
             link: linkRef.current.value,
             button: button
         });
-        nameRef.current.value = '';
-        linkRef.current.value = '';
     }
 
     return(
@@ -23,7 +26,8 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
             buttonText="Создать"
             isOpen={isOpen}
             onClose={onClose}
-            onSubmit={handleSubmit}>
+            onSubmit={handleSubmit}
+            isLoading={isLoading}>
             <input 
                 type="text"
                 minLength="2"
