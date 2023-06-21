@@ -12,7 +12,6 @@ import Register from './Register.js';
 import ProtectedRouteElement from './ProtectedRoute.js';
 import InfoTooltip from './InfoTooltip.js';
 
-
 function App() {
     const menu = document.querySelector('.menu');
     const button = document.querySelector('.header__button');
