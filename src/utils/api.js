@@ -99,7 +99,52 @@ export default class Api {
         return this._checkData(res);
       });
     }
-}
+
+    _getErrorAuth(res) {
+      return res.json().then((res) => {
+        throw new Error(res.message);
+      });
+    }
+    registration(password, email) {
+      return fetch('https://auth.nomoreparties.co/signup', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json" 
+        },
+        body: JSON.stringify({password, email})
+      })
+      .then(res => {
+        if (res.ok) return res.json();
+        return this._getErrorAuth(res);
+      });
+    }
+
+    login(password, email) {
+      return fetch('https://auth.nomoreparties.co/signin', {
+        method: 'POST',
+        headers: {
+          "Content-Type": "application/json" 
+        },
+        body: JSON.stringify({password, email})
+      })
+      .then(res => {
+        if (res.ok) {
+          return res.json();}
+        return this._getErrorAuth(res);
+      });
+    }
+    checkToken(token) {
+      return fetch('https://auth.nomoreparties.co/users/me', {
+        method: 'GET',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        }
+      })
+      .then(res => { return res.json()})
+      .then(data => {return data})
+    }
+  }
 
 export const api = new Api({
   baseUrl: 'https://mesto.nomoreparties.co/v1/cohort-65/',

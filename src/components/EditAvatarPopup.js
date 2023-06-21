@@ -2,7 +2,7 @@ import PopupWithForm  from './PopupWithForm.js';
 import React from 'react';
 function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
     const avatarRef = React.useRef();    
-
+    //Получение и смена аватара пользователя
     function handleSubmit(evt) {
         evt.preventDefault();
         const button = evt.currentTarget.querySelector('.popup__button');

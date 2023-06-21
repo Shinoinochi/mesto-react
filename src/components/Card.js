@@ -5,17 +5,19 @@ function Card({ card, onCardClick, onCardLike, onCardDelete}) {
     const isOwn = card.owner._id === currentUser._id;
     const isLiked = card.likes.some(i => i._id === currentUser._id);
     const cardLikeButtonClassName = ( `gallery__button-like ${isLiked && 'gallery__like_active'}`);
-
+    //Удаление карточки
     function handleDeleteClic() {
         onCardDelete(card);
     }
+    //Открытие карточки
     function handleClick() {
         onCardClick(card);
     }
+    //Лайк карточке
     function handleClickLike() {
         onCardLike(card);
     }
-
+    
     return (
     <div className="gallery__item">
         {isOwn && <button className="gallery__delete" type="button" onClick={handleDeleteClic}/>} 

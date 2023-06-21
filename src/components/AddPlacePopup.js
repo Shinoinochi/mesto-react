@@ -8,7 +8,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
         nameRef.current.value = '';
         linkRef.current.value = '';
     }, [isOpen]);
-
+    //Добавление новой карточки
     function handleSubmit(evt) {
         evt.preventDefault();
         const button = evt.currentTarget.querySelector('.popup__button');

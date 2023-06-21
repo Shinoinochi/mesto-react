@@ -1,10 +1,20 @@
 import { CurrentUserContext } from '../context/CurrentUserContext.js';
 import Card from './Card.js';
 import React from 'react';
+import Footer from './Footer.js';
+import Header from './Header.js';
 
-function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, user, handleCardLike, cards, onCardDelete }) {
+function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, user, handleCardLike, cards, onCardDelete, logout, onMenuClick, isLogin }) {
     const currentUser = React.useContext(CurrentUserContext);
     return (
+        <>
+        <div className='menu'>   
+            <p className='menu__email'>{user}</p>
+            <a className='menu__link' onClick={logout} href='sign-in'>Выйти</a>
+        </div>
+        <Header email={user} onClick={logout} text={'Выйти'} onMenuClick={onMenuClick} active={'header__link_active'} isLogin={isLogin}> 
+            <button className='header__button' onClick={onMenuClick}></button> 
+        </Header>
         <main className="content">
             <section className="profile">
                 <div className="profile__avatar">
@@ -37,10 +47,12 @@ function Main({ onEditAvatar, onEditProfile, onAddPlace, onCardClick, user, hand
             </section>
             <section className="gallery">
                 {cards.map((card) => 
-                    <Card  card={card} key={card._id} onCardClick={onCardClick} onCardLike={handleCardLike} onCardDelete={onCardDelete} />
+                    <Card  card={card} key={card._id} onCardClick={onCardClick} onCardLike={handleCardLike}  onCardDelete={onCardDelete} />
                 )}
             </section>
         </main>
+        <Footer />
+        </>
     )
 }
 export default Main;

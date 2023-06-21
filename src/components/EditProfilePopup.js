@@ -10,13 +10,15 @@ function EditProfilePopup({isOpen, onClose, onUpdateUser, isLoading}) {
         setName(currentUser.name);
         setDescription(currentUser.about);
     }, [currentUser, isOpen]);
-     
+    //Получение имени пользователя
     function handleEditName(evt) {
         setName(evt.target.value);
     }
+    //Получение описания пользователя
     function handleEditDescription(evt) {
         setDescription(evt.target.value);
     }
+    //Отправка и смена данных пользователя 
     function handleSubmit(evt) {
         const button = evt.currentTarget.querySelector('.popup__button');
         evt.preventDefault();
